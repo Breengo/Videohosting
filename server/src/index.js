@@ -1,15 +1,15 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import path from 'path';
-import jwt from 'jsonwebtoken';
-import { fileURLToPath } from 'url';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import path from "path";
+import jwt from "jsonwebtoken";
+import { fileURLToPath } from "url";
 
-import router from './routes/index.js';
-import sequilize from './db.js';
-import model from './models/models.js';
-import errorHandler from './middlewares/ErrorHandlingMiddleware.js';
-import fileUpload from 'express-fileupload';
+import router from "./routes/index.js";
+import sequilize from "./db.js";
+import model from "./models/models.js";
+import errorHandler from "./middlewares/ErrorHandlingMiddleware.js";
+import fileUpload from "express-fileupload";
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
@@ -22,7 +22,7 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload({}));
-app.use(express.static(path.resolve(__dirname, 'static')));
+app.use(express.static(path.resolve(__dirname, "static")));
 app.use(router);
 app.use(errorHandler);
 

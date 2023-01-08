@@ -1,9 +1,9 @@
-import { Like, Subscribes, User, Video } from '../models/models.js';
-import { fileURLToPath } from 'url';
-import { Op } from 'sequelize';
-import path from 'path';
-import { v4 } from 'uuid';
-import ApiError from '../error/ApiError.js';
+import { Like, Subscribes, User, Video } from "../models/models.js";
+import { fileURLToPath } from "url";
+import { Op } from "sequelize";
+import path from "path";
+import { v4 } from "uuid";
+import ApiError from "../error/ApiError.js";
 
 class VideoController {
   async create(req, res, next) {
@@ -13,10 +13,16 @@ class VideoController {
       const __dirname = path.dirname(__filename);
       const { title, description } = req.body;
       const { file } = req.files;
-      if (!file) return next(ApiError.badRequest('No uploaded video'));
-      const video = v4() + '.mp4';
-      file.mv(path.resolve(__dirname, '..', 'static', video));
-      const newVideo = Video.create({ title, description, video, views: 0, UserId });
+      if (!file) return next(ApiError.badRequest("No uploaded video"));
+      const video = v4() + ".mp4";
+      file.mv(path.resolve(__dirname, "..", "static", video));
+      const newVideo = Video.create({
+        title,
+        description,
+        video,
+        views: 0,
+        UserId,
+      });
       return res.status(200).json({ newVideo });
     } catch (error) {
       return next(ApiError.internal(error));
@@ -29,17 +35,17 @@ class VideoController {
         where: { id },
         include: {
           model: User,
-          attributes: ['image', 'name', 'id'],
+          attributes: ["image", "name", "id"],
         },
         attributes: {
-          exclude: ['UserId'],
+          exclude: ["UserId"],
         },
       });
       await Video.update(
         { views: video.views + 1 },
         {
           where: { id },
-        },
+        }
       );
       return res.status(200).json(video);
     } catch (error) {
@@ -55,12 +61,12 @@ class VideoController {
         limit: 20,
         offset,
         attributes: {
-          exclude: ['UserId'],
+          exclude: ["UserId"],
         },
 
         include: {
           model: User,
-          attributes: ['image', 'name'],
+          attributes: ["image", "name"],
         },
       });
       return res.status(200).json(videos);
@@ -71,7 +77,14 @@ class VideoController {
 
   async getBySearch(req, res, next) {
     try {
-      const { searchText } = req.body;
+      const { searchText, filter } = req.body;
+      let order = ["createdAt", "DESC"];
+      if (filter === "Oldest") {
+        order = ["createdAt", "ASC"];
+      }
+      if (filter === "Views") {
+        order = ["views", "DESC"];
+      }
       let videos = await Video.findAll({
         where: {
           [Op.or]: [
@@ -79,12 +92,13 @@ class VideoController {
             { description: { [Op.iRegexp]: searchText } },
           ],
         },
+        order: [order],
         attributes: {
-          exclude: ['UserId'],
+          exclude: ["UserId"],
         },
         include: {
           model: User,
-          attributes: ['image', 'name'],
+          attributes: ["image", "name"],
         },
       });
       return res.status(200).json(videos);
@@ -95,17 +109,19 @@ class VideoController {
 
   async getSubscriptionVideos(req, res, next) {
     try {
-      const channeles = await Subscribes.findAll({ where: { UserId: req.token.id } });
+      const channeles = await Subscribes.findAll({
+        where: { UserId: req.token.id },
+      });
       let videos = [];
       for (let i = 0; i < channeles.length; i++) {
         const authorVideos = await Video.findAll({
           where: { UserId: channeles[i].channelId },
           attributes: {
-            exclude: ['UserId'],
+            exclude: ["UserId"],
           },
           include: {
             model: User,
-            attributes: ['image', 'name'],
+            attributes: ["image", "name"],
           },
         });
         for (let j = 0; j < authorVideos.length; j++) {
@@ -121,7 +137,7 @@ class VideoController {
   async getLikedVideos(req, res, next) {
     try {
       const likes = await Like.findAll({
-        where: { [Op.and]: { UserId: req.token.id, value: 'like' } },
+        where: { [Op.and]: { UserId: req.token.id, value: "like" } },
       });
       let videos = [];
       for (let i = 0; i < likes.length; i++) {
@@ -129,13 +145,13 @@ class VideoController {
           await Video.findOne({
             where: { id: likes[i].VideoId },
             attributes: {
-              exclude: ['UserId'],
+              exclude: ["UserId"],
             },
             include: {
               model: User,
-              attributes: ['image', 'name'],
+              attributes: ["image", "name"],
             },
-          }),
+          })
         );
       }
       return res.status(200).json(videos);

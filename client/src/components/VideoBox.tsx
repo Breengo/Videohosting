@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import dateConverter from '../utils/dateConverter';
+import { Link } from "react-router-dom";
+import dateConverter from "../utils/dateConverter";
 
 interface IVideoProps {
   video: string;
@@ -23,8 +23,12 @@ const VideoBox: React.FC<IVideoProps> = ({
   return (
     <Link
       to={`/video/${id}`}
-      className="mb-4 mx-2 cursor-pointer hover:bg-gray-800 p-4 rounded-xl flex-col flex h-fit">
-      <video className=" min-h-60 rounded-xl" src={`http://localhost:3001/${video}`} />
+      className="mb-4 mx-2  cursor-pointer hover:bg-gray-800 sm:p-4 rounded-xl flex-col flex h-fit"
+    >
+      <video
+        className="sm:min-h-60 min-h-40 rounded-xl"
+        src={`http://localhost:3001/${video}`}
+      />
       <div className="flex">
         <img
           className="h-10 rounded-3xl mt-2 ml-1 mr-2"
@@ -32,11 +36,13 @@ const VideoBox: React.FC<IVideoProps> = ({
           alt="error"
         />
         <div className="flex-column">
-          <h3 className="mt-2 text-white text-3xl">{title}</h3>
+          <h3 className="mt-2 text-white text-xl sm:text-3xl">{title}</h3>
           <h4 className="text-gray-300">{authorName}</h4>
           <h5 className="text-gray-300 flex">
             {views} views
-            <span className="flex items-center justify-center w-1 h-2 text-3xl mx-2">.</span>
+            <span className="flex items-center justify-center w-1 h-2 text-3xl mx-2">
+              .
+            </span>
             {dateConverter(uploadDate)}
           </h5>
         </div>

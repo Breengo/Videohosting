@@ -1,23 +1,25 @@
-import React from 'react';
-import { RootState } from '../redux/store';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const SidebarSmall = () => {
   const current = useSelector((state: RootState) => state.curPage);
   const isAuth = useSelector((state: RootState) => state.isAuth);
   return (
-    <div className="text-white text-xs h-screen flex flex-col bg-gray-900 w-24 fixed px-2 pt-10 items-center">
+    <div className="text-white text-xs h-screen xl:flex flex-col bg-gray-900 w-24 fixed px-2 pt-32 items-center hidden">
       <Link
         to="/"
-        className="inline flex flex-col justify-center items-center text-center w-full cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full">
+        className="inline flex flex-col justify-center items-center text-center w-full cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill={current.home ? 'white' : 'none'}
+          fill={current.home ? "white" : "none"}
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6">
+          className="w-6 h-6"
+        >
           <path d="M12,3c0,0-6.186,5.34-9.643,8.232C2.154,11.416,2,11.684,2,12c0,0.553,0.447,1,1,1h2v7c0,0.553,0.447,1,1,1h3  c0.553,0,1-0.448,1-1v-4h4v4c0,0.552,0.447,1,1,1h3c0.553,0,1-0.447,1-1v-7h2c0.553,0,1-0.447,1-1c0-0.316-0.154-0.584-0.383-0.768  C18.184,8.34,12,3,12,3z" />
         </svg>
         <h3 className="text-center w-full">Home</h3>
@@ -26,14 +28,16 @@ const SidebarSmall = () => {
         <>
           <Link
             to="/subscriptions/"
-            className="inline flex flex-col justify-center items-center mt-4 cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full">
+            className="inline flex flex-col justify-center items-center mt-4 cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill={current.subs ? 'white' : 'none'}
+              fill={current.subs ? "white" : "none"}
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6">
+              className="w-6 h-6"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -44,14 +48,16 @@ const SidebarSmall = () => {
           </Link>
           <Link
             to="/upload/"
-            className="inline flex flex-col justify-center items-center mt-4 cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full">
+            className="inline flex flex-col justify-center items-center mt-4 cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6">
+              className="w-6 h-6"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -62,14 +68,16 @@ const SidebarSmall = () => {
           </Link>
           <Link
             to="/liked/"
-            className="inline flex flex-col justify-center items-center mt-4 cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full">
+            className="inline flex flex-col justify-center items-center mt-4 cursor-pointer hover:bg-gray-600 p-2 rounded-xl w-full"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill={current.liked ? 'white' : 'none'}
+              fill={current.liked ? "white" : "none"}
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6">
+              className="w-6 h-6"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
